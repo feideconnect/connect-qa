@@ -9,3 +9,6 @@ var c = new ConnectQA();
 c.run(); 
 
 
+setTimeout(function() {
+	console.log("Done");
+}, 30000);
