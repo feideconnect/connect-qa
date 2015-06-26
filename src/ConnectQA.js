@@ -6,16 +6,18 @@
 
 var Class = require('./Class').Class;
 var OCEngine = require('./OCEngine/OCEngine').OCEngine;
-
+var CodeFlow = require('./OCEngine/CodeFlow').CodeFlow;
 
 
 var ConnectQA = Class.extend({
 	"init": function() {
 		this.oce = new OCEngine();
+		this.codeflow = new CodeFlow();
 		
 	},
 	"run": function() {
 		this.oce.run();
+		this.codeflow.run();
 	}
 })
 

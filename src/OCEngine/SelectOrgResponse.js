@@ -6,6 +6,10 @@ var SelectOrgResponse = Response.extend({
 	"init": function(response, body, c) {
 		this._super(response, body, c);
 		this.type = "SelectOrgResponse";
+		this.org = "feide.no";
+	},
+	"selectOrg": function(org) {
+		this.org = org;
 	},
 	"next": function(engine) {
 		var that = this;
@@ -33,7 +37,7 @@ var SelectOrgResponse = Response.extend({
 		// console.log("Org options:", orgoptions);
 		// console.log("Parameters:", obj);
 
-		obj.org = "feide.no";
+		obj.org = this.org;
 
 
 		var options = {

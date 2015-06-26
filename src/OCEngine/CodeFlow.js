@@ -10,7 +10,9 @@ var uuid = require('uuid');
 var request = require('request');
 var cheerio = require('cheerio');
 var extend = require('extend');
-var Engine = require('../Engine/Engine').Engine;
+// var Engine = require('../Engine/Engine').Engine;
+
+var OCEngine = require('./OCEngine').OCEngine;
 
 var POSTResponse 			= require('./POSTResponse').POSTResponse;
 var SelectProviderResponse 	= require('./SelectProviderResponse').SelectProviderResponse;
@@ -19,6 +21,7 @@ var SelectOrgResponse		= require('./SelectOrgResponse').SelectOrgResponse;
 var PasswordDialogResponse	= require('./PasswordDialogResponse').PasswordDialogResponse;
 var PreProdWarningResponse  = require('./PreProdWarningResponse').PreProdWarningResponse;
 var ConnectConsentResponse  = require('./ConnectConsentResponse').ConnectConsentResponse;
+
 
 var AccessToken = require('../OpenID/AccessToken').AccessToken;
 var AuthorizationRequest = require('../OpenID/AuthorizationRequest').AuthorizationRequest;
@@ -41,40 +44,40 @@ var default_config = {
 
 
 
-
-var OCEngine = Engine.extend({
+var CodeFlow = OCEngine.extend({
 	"init": function(config) {
 
-		this.config = extend(true, default_config, config || {});
+		this._super(config);
 
-
-		this._super();
-		this.responseinspector
-			.add(POSTResponse)
-			.add(SelectProviderResponse)
-			.add(RedirectResponse)
-			.add(SelectOrgResponse)
-			.add(PasswordDialogResponse)
-			.add(PreProdWarningResponse)
-			.add(ConnectConsentResponse)
-			;
 	},
 
-	"getUserInfo": function(token) {
+	"resolveCode": function(code) {
 
+		// console.log("resolve ", code);
+
+		var obj = {
+			"grant_type": "authorization_code",
+			"code": code,
+			"redirect_uri": this.config.redirect_uri,
+			"client_id": this.config.client_id
+		};
 
 		var opts = {
-			"url": this.config.oauth_userinfo,
-			"headers": {
-				"Authorization": "Bearer " + token.access_token
+			"url": this.config.oauth_token,
+			"method": "POST",
+			"form": obj,
+			'auth': {
+				'user': this.config.client_id,
+				'pass': this.config.client_secret,
+				'sendImmediately': true
 			}
 		};
-		console.log(opts);
+		// console.log(opts);
 
 		return this.getJSON(opts);
 
-
 	},
+
 
 
 	"run": function() {
@@ -84,7 +87,7 @@ var OCEngine = Engine.extend({
 
 
 		var ar = new AuthorizationRequest();
-		ar.response_type = "token";
+		ar.response_type = "code";
 		ar.state = this.state;
 		ar.client_id = this.config.client_id;
 		ar.redirect_uri = this.config.redirect_uri;
@@ -165,26 +168,42 @@ var OCEngine = Engine.extend({
 
 				if (response instanceof RedirectResponse) {
 					var redirect_uri = response.getURL();
-					var up = url.parse(redirect_uri);
-					var hash = up.hash;
+					var up = url.parse(redirect_uri, true);
 
-					var q = querystring.parse(hash.substring(1));
-					var token = new AccessToken(q);
-					return token;
+					assert(up.query.state, that.state, "State together with code is identical to in the request");
+					var code = up.query.code;
+
+					return that.resolveCode(code);
+
 				}
 				throw new Error("Expected a redirect to the redirect_uri.");
 
 			})
-			.then(function(token) {
+			.then(function(data) {
+
+				var token = new AccessToken(data);
 
 				console.log("---- TOKEN");
 				console.log(token);
 
 				assert.isAbove(token.expires_in, 12000, 'Expires in token duration should be long enought');
 				assert.equal(token.token_type, "Bearer", "Token type should equal Bearer");
-				assert.equal(token.state, that.state, "State with token should match state in request.");
+				// assert.equal(token.state, that.state, "State with token should match state in request.");
 				
 				return token;
+
+			})
+			.then(function(token) {
+
+				return that.getUserInfo(token);
+
+			})
+			.then(function(info) {
+
+				console.log("---- USerinfoi");
+				console.log(info);
+
+				assert.equal(that.config.client_id, info.audience, "Verify audience of userinfo endpoint");
 
 			})
 			.catch(function(error) {
@@ -197,4 +216,4 @@ var OCEngine = Engine.extend({
 	
 });
 
-exports.OCEngine = OCEngine;
+exports.CodeFlow = CodeFlow;

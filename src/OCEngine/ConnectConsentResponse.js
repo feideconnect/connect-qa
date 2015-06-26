@@ -2,19 +2,15 @@
 
 var Response = require('../Engine/Response').Response;
 
-
-
-var POSTResponse = Response.extend({
+var ConnectConsentResponse = Response.extend({
 	"init": function(response, body, c) {
 		this._super(response, body, c);
-		this.type = "POSTResponse";
+		this.type = "ConnectConsentResponse";
 	},
 	"next": function(engine) {
-		var obj = {};
 		var that = this;
-
-		// console.log("NEXT");
-		// console.log(this.$("input"));
+		var obj = {};
+		var orgoptions = {};
 
 		var action = this.$("form").attr("action");
 
@@ -27,26 +23,28 @@ var POSTResponse = Response.extend({
 			}
 		});
 
+		// obj.yes = "Ja, jeg holder på å teste innlogging, og vet dette er et test-system.";
+
+		// this.debug();
 		var options = {
 			"url": action,
 			"method": "POST",
 			"form": obj
 		};
+		// console.log(options);
 
-		// console.log("Options", options);
 
 		return engine.get(options);
 	}
 });
 
-POSTResponse.detect = function(response, body, c) {
-	if (response.statusCode === 200 && c("title").text() === "POST data") {
-		return new POSTResponse(response, body, c);
+ConnectConsentResponse.detect = function(response, body, c) {
+
+
+	if (response.statusCode === 200 && c("title").text() === "Authorization Required") {
+		return new ConnectConsentResponse(response, body, c);
 	}
 	return null;
 }
 
-
-
-
-exports.POSTResponse = POSTResponse;
+exports.ConnectConsentResponse = ConnectConsentResponse;

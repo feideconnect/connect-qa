@@ -35,7 +35,7 @@ var PasswordDialogResponse = Response.extend({
 			}
 		});
 
-		console.log("Action:", action);
+		// console.log("Action:", action);
 
 
 		if ((this.u === null) || (this.p === null)) {
@@ -50,7 +50,7 @@ var PasswordDialogResponse = Response.extend({
 			"method": "POST",
 			"form": obj
 		};
-		console.log("Options", options);
+		// console.log("Options", options);
 
 		return engine.get(options);
 	}

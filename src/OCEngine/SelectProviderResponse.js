@@ -18,15 +18,15 @@ var SelectProviderResponse = Response.extend({
 				"title": t
 			});
 		});
-		console.log("opts", opts);
+		// console.log("opts", opts);
 		return engine.get(opts[0].url);
 	}
 });
 SelectProviderResponse.detect = function(response, body, c) {
 
-	console.log("About to detect");
-	console.log(response.statusCode);
-	console.log(c("title").text());
+	// console.log("About to detect");
+	// console.log(response.statusCode);
+	// console.log(c("title").text());
 
 	if (response.statusCode === 200 && c("title").text() === "Select your login provider") {
 		return new SelectProviderResponse(response, body, c);

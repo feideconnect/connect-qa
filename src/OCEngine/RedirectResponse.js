@@ -6,14 +6,17 @@ var RedirectResponse = Response.extend({
 	"init": function(response, body, c) {
 		this._super(response, body, c);
 		this.type = "RedirectResponse";
+
+		this.process();
+	},
+	"process": function() {
+		this.url = this.response.headers.location;
+	},
+	"getURL": function() {
+		return this.url;
 	},
 	"next": function(engine) {
-		console.log("REDIRECT");
-		console.log(this.response.headers);
-
-		var url = this.response.headers.location;
-		console.log("Moving to " + url);
-		return engine.get(url);
+		return engine.get(this.url);
 
 	}
 });

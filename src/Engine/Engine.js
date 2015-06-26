@@ -13,12 +13,29 @@ var Engine = Class.extend({
 		this.responseinspector = new ResponseInspector();
 		this.request = request.defaults({jar: true});
 	},
+
+	"getJSON": function(url) {
+		var that = this;
+		return new Promise(function(resolve, reject) {
+			that.request(url, function (error, response, body) {
+
+				if (error) {
+					console.log("We have not yet defined interpretation of HTTP errors. TBD");
+					return reject(error);
+				}
+
+				var data = JSON.parse(body);
+				// var r = that.responseinspector.detect(response, body, $);
+
+				resolve(data);
+
+			});
+		});
+	},
+
+
 	"get": function (url) {
 		var that = this;
-
-		// console.log("----");
-		// console.log(url);
-
 		return new Promise(function(resolve, reject) {
 			that.request(url, function (error, response, body) {
 
@@ -36,7 +53,7 @@ var Engine = Class.extend({
 		});
 	},
 	"run": function() {
-		console.log("---- running engine");
+
 	}
 });
 
