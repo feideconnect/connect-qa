@@ -6,6 +6,8 @@ var querystring = require('querystring');
 
 var uuid = require('uuid');
 
+var Timer = require('../Timer').Timer;
+
 
 var request = require('request');
 var cheerio = require('cheerio');
@@ -45,10 +47,16 @@ var default_config = {
 var OCEngine = Engine.extend({
 	"init": function(config) {
 
-		this.config = extend(true, default_config, config || {});
-
 
 		this._super();
+		this.config = extend(true, default_config, config || {});
+
+		console.log("Config", this.config);
+
+		this.title = "token";
+
+
+
 		this.responseinspector
 			.add(POSTResponse)
 			.add(SelectProviderResponse)
@@ -63,6 +71,8 @@ var OCEngine = Engine.extend({
 	"getUserInfo": function(token) {
 
 
+
+
 		var opts = {
 			"url": this.config.oauth_userinfo,
 			"headers": {
@@ -71,15 +81,13 @@ var OCEngine = Engine.extend({
 		};
 		console.log(opts);
 
-		return this.getJSON(opts);
+		return this.getJSON(opts, {"title": "api auth userinfo"});
 
 
 	},
 
-
 	"run": function() {
 
-		this.request.jar()
 		this.state = uuid.v4();
 
 
@@ -90,7 +98,9 @@ var OCEngine = Engine.extend({
 		ar.redirect_uri = this.config.redirect_uri;
 		
 
-		var rurl = this.config.oauth_authorization + '?' + querystring.stringify(ar);
+		var rurl = {
+			"url": this.config.oauth_authorization + '?' + querystring.stringify(ar)
+		};
 		console.log("Authorization request " + rurl);
 
 
@@ -184,7 +194,25 @@ var OCEngine = Engine.extend({
 				assert.equal(token.token_type, "Bearer", "Token type should equal Bearer");
 				assert.equal(token.state, that.state, "State with token should match state in request.");
 				
+				that.token = token;
 				return token;
+
+			})
+			.then(function(token) {
+
+				return that.getUserInfo(token);
+
+			})
+			.then(function(info) {
+
+				console.log("---- USerinfoi");
+				console.log(info);
+
+				assert.equal(that.config.client_id, info.audience, "Verify audience of userinfo endpoint");
+
+				that.done();
+
+				return that.token;
 
 			})
 			.catch(function(error) {

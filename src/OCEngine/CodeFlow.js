@@ -47,7 +47,10 @@ var default_config = {
 var CodeFlow = OCEngine.extend({
 	"init": function(config) {
 
-		this._super(config);
+		this._super();
+		this.config = extend(true, default_config, config || {});
+
+		this.title = "code";
 
 	},
 
@@ -82,7 +85,6 @@ var CodeFlow = OCEngine.extend({
 
 	"run": function() {
 
-		this.request.jar()
 		this.state = uuid.v4();
 
 
@@ -183,13 +185,14 @@ var CodeFlow = OCEngine.extend({
 
 				var token = new AccessToken(data);
 
-				console.log("---- TOKEN");
-				console.log(token);
+				// console.log("---- TOKEN");
+				// console.log(token);
 
 				assert.isAbove(token.expires_in, 12000, 'Expires in token duration should be long enought');
 				assert.equal(token.token_type, "Bearer", "Token type should equal Bearer");
 				// assert.equal(token.state, that.state, "State with token should match state in request.");
 				
+				that.token = token;
 				return token;
 
 			})
@@ -200,11 +203,14 @@ var CodeFlow = OCEngine.extend({
 			})
 			.then(function(info) {
 
-				console.log("---- USerinfoi");
+				console.log("---- Userinfo");
 				console.log(info);
 
 				assert.equal(that.config.client_id, info.audience, "Verify audience of userinfo endpoint");
 
+
+				that.done();
+				return that.token;
 			})
 			.catch(function(error) {
 				console.error("ERROR", error);

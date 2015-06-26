@@ -1,0 +1,35 @@
+{
+	"sets": {
+		"prod": {
+
+			"oauth_authorization": "https://auth.feideconnect.no/oauth/authorization",
+			"oauth_token": "https://auth.feideconnect.no/oauth/token",
+			"oauth_userinfo": "https://auth.feideconnect.no/userinfo"
+		},
+		"dev": {
+			"oauth_authorization": "https://auth.dev.feideconnect.no/oauth/authorization",
+			"oauth_token": "https://auth.dev.feideconnect.no/oauth/token",
+			"oauth_userinfo": "https://auth.dev.feideconnect.no/userinfo"
+		}
+
+	},
+	"common": {
+		"org": "feide.no",
+		"username": "test",
+		"password": "098asd",
+
+		"client_id": "5ac8753f-8296-41bf-b985-59d89769005e",
+		"client_secret": "b835cb53-6bc9-49c7-89a2-d9149a7f917e",
+		"redirect_uri": "https://op.certification.openid.net:60334/authz_cb",
+
+		"ep": {
+			"auth": "https://auth.feideconnect.no",
+			"core": "https://api.feideconnect.no",
+			"groups": "https://groups-api.feideconnect.no"
+		},
+
+		
+		"stathat": "andreas@solweb.no"
+	},
+	"default": "dev"
+}
