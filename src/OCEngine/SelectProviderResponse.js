@@ -24,7 +24,7 @@ var SelectProviderResponse = Response.extend({
 		this.assert.equal(opts[0].title, 'Feide', 'First provider listed is Feide');
 		// this.assert.equal(2, 3, "1 equals 1");
 		// console.log("opts", opts);
-		this.log.debug("Information from provider page", opts);
+		// this.log.debug("Information from provider page", opts);
 
 		return engine.get(opts[0].url);
 	}
