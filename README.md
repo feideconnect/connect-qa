@@ -8,5 +8,10 @@ Functional test suite against Connect Platform.
 	npm test
 
 
+To run tests:
+
+	clear; node index.js | bunyan
+
+
 
 

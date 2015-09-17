@@ -14,12 +14,19 @@ var Timer = require('../Timer').Timer;
 var Class = require('../Class').Class;
 var ResponseInspector = require('./ResponseInspector').ResponseInspector;
 
+var Logger = require('../Logger').Logger;
+
+
+
 
 
 
 var Engine = Class.extend({
 	"init": function() {
-		this.responseinspector = new ResponseInspector();
+		
+		this.log = Logger.get();
+
+		this.responseinspector = new ResponseInspector(this.log);
 		this.jar = request.jar();
 		this.request = request.defaults({"jar": this.jar});
 
@@ -60,7 +67,8 @@ var Engine = Class.extend({
 			that.request(opts, function (error, response, body) {
 
 				if (error) {
-					console.log("We have not yet defined interpretation of HTTP errors. TBD");
+
+					that.log.error("getJSON() - We have not yet defined interpretation of HTTP errors", opts, to, error);
 					return reject(error);
 				}
 
@@ -100,7 +108,7 @@ var Engine = Class.extend({
 			that.request(opts, function (error, response, body) {
 
 				if (error) {
-					console.log("We have not yet defined interpretation of HTTP errors. TBD");
+					that.log.error("get() - We have not yet defined interpretation of HTTP errors", opts, to, error);
 					return reject(error);
 				}
 

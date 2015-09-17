@@ -1,6 +1,13 @@
 
 "use strict";
 
+
+/**
+ * ConnectQA is the main application that runs one or more test flows. 
+ * Input can be used to dictate which test runs to execute..
+ * (CLI Application) Try to run:  node index.js --help
+ */
+
 var util = require('util');
 var optimist = require('optimist')
 	.usage('Usage: $0 --set [string] ')
@@ -51,7 +58,7 @@ var ConnectQA = Class.extend({
 		this.sconfig = sconfig;
 
 		this.oce = new OCEngine(sconfig);
-		this.codeflow = new CodeFlow(sconfig);
+		// this.codeflow = new CodeFlow(sconfig);
 
 
 		
@@ -64,7 +71,7 @@ var ConnectQA = Class.extend({
 				return that.oce.run();
 			})
 			.then(function() {
-				return that.codeflow.run();
+				// return that.codeflow.run();
 			})
 			.then(function(token) {
 				var api = new ConnectAPI(that.sconfig, token);

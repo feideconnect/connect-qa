@@ -1,6 +1,8 @@
 
 "use strict";
 
+
+
 var url = require('url');
 var querystring = require('querystring');
 
@@ -48,10 +50,11 @@ var OCEngine = Engine.extend({
 	"init": function(config) {
 
 
+
 		this._super();
 		this.config = extend(true, default_config, config || {});
 
-		console.log("Config", this.config);
+		this.log.debug("Configuration", this.config);
 
 		this.title = "token";
 
@@ -70,16 +73,14 @@ var OCEngine = Engine.extend({
 
 	"getUserInfo": function(token) {
 
-
-
-
 		var opts = {
 			"url": this.config.oauth_userinfo,
 			"headers": {
 				"Authorization": "Bearer " + token.access_token
 			}
 		};
-		console.log(opts);
+		this.info("getUserInfo()", opts);
+		// console.log(opts);
 
 		return this.getJSON(opts, {"title": "api auth userinfo"});
 
@@ -101,7 +102,7 @@ var OCEngine = Engine.extend({
 		var rurl = {
 			"url": this.config.oauth_authorization + '?' + querystring.stringify(ar)
 		};
-		console.log("Authorization request " + rurl);
+		this.log.debug("Authorization request " + rurl.url);
 
 
 		var that = this;
@@ -187,8 +188,7 @@ var OCEngine = Engine.extend({
 			})
 			.then(function(token) {
 
-				console.log("---- TOKEN");
-				console.log(token);
+				that.log.info("Obtained token is", token);
 
 				assert.isAbove(token.expires_in, 12000, 'Expires in token duration should be long enought');
 				assert.equal(token.token_type, "Bearer", "Token type should equal Bearer");
@@ -205,8 +205,7 @@ var OCEngine = Engine.extend({
 			})
 			.then(function(info) {
 
-				console.log("---- USerinfoi");
-				console.log(info);
+				that.log.info("Userinfo results", info);
 
 				assert.equal(that.config.client_id, info.audience, "Verify audience of userinfo endpoint");
 
@@ -216,8 +215,9 @@ var OCEngine = Engine.extend({
 
 			})
 			.catch(function(error) {
-				console.error("ERROR", error);
-				console.log(error.stack);
+				that.log.error("Error", error, error.stack)
+				// console.error("ERROR", error);
+				// console.log(error.stack);
 			});
 
 	}

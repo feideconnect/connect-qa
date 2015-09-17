@@ -96,7 +96,7 @@ var CodeFlow = OCEngine.extend({
 		
 
 		var rurl = this.config.oauth_authorization + '?' + querystring.stringify(ar);
-		console.log("Authorization request " + rurl);
+		console.log("Authorization request ", rurl);
 
 
 		var that = this;

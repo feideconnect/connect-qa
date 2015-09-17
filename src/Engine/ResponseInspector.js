@@ -7,9 +7,16 @@ var cheerio = require('cheerio');
 var Response = require('./Response').Response;
 var Class = require('../Class').Class;
 
+/**
+ * The ResponseInspector inspects an HTTP Response.
+ * Each ResponseType inculdes a detection test that evaluates if this HTTP response is of that kind.
+ * 
+ */
+
 
 var ResponseInspector = Class.extend({
-	"init": function() {
+	"init": function(log) {
+		this.log = log;
 		this.responsetypes = [];
 	},
 	"add": function(rt) {
@@ -27,7 +34,7 @@ var ResponseInspector = Class.extend({
 			pr = this.responsetypes[i].detect(response, body, c);
 
 			if (pr !== null) {
-				console.log(" Response: " + pr.type);
+				this.log.info("Response detected as ", pr.type);
 				return pr;
 			}
 		}

@@ -74,7 +74,7 @@ var ConnectAPI = Class.extend({
 			that.request(opts, function (error, response, body) {
 
 				if (error) {
-					console.log("We have not yet defined interpretation of HTTP errors. TBD");
+					console.log("API getJSON() - We have not yet defined interpretation of HTTP errors. TBD");
 					return reject(error);
 				}
 
