@@ -45,7 +45,6 @@ var default_config = {
 
 
 
-
 var OCEngine = Engine.extend({
 	"init": function(config) {
 
@@ -79,7 +78,7 @@ var OCEngine = Engine.extend({
 				"Authorization": "Bearer " + token.access_token
 			}
 		};
-		this.info("getUserInfo()", opts);
+		// this.log.info("getUserInfo()", opts);
 		// console.log(opts);
 
 		return this.getJSON(opts, {"title": "api auth userinfo"});
