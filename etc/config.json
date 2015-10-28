@@ -1,7 +1,6 @@
 {
 	"sets": {
 		"prod": {
-
 			"oauth_authorization": "https://auth.feideconnect.no/oauth/authorization",
 			"oauth_token": "https://auth.feideconnect.no/oauth/token",
 			"oauth_userinfo": "https://auth.feideconnect.no/userinfo"
@@ -11,8 +10,8 @@
 			"oauth_token": "https://auth.dev.feideconnect.no/oauth/token",
 			"oauth_userinfo": "https://auth.dev.feideconnect.no/userinfo"
 		}
-
 	},
+
 	"common": {
 		"org": "feide.no",
 		"username": "test",
@@ -28,8 +27,8 @@
 			"groups": "https://groups-api.feideconnect.no"
 		},
 
-		
 		"stathat": "andreas@solweb.no"
 	},
+	
 	"default": "dev"
 }
