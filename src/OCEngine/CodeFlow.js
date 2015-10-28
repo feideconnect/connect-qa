@@ -112,6 +112,7 @@ var CodeFlow = OCEngine.extend({
 
 				if (response instanceof SelectOrgResponse) {
 					response.selectOrg(that.config.org);
+					response.setIdPhostname(that.config.idphostname);
 					return response.next(that);
 				}
 				throw new Error("We expected a SelectOrg page.");

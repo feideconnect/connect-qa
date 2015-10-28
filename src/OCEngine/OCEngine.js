@@ -117,6 +117,7 @@ var OCEngine = Engine.extend({
 
 				if (response instanceof SelectOrgResponse) {
 					response.selectOrg(that.config.org);
+					response.setIdPhostname(that.config.idphostname);
 					return response.next(that);
 				}
 				throw new Error("We expected a SelectOrg page.");
@@ -128,6 +129,8 @@ var OCEngine = Engine.extend({
 					response.setCredentials(that.config.username, that.config.password);
 					return response.next(that);
 				}
+
+				response.debug();
 				throw new Error("We expected a PasswordDialogResponse");
 
 			})
@@ -152,6 +155,7 @@ var OCEngine = Engine.extend({
 				if (response instanceof POSTResponse) {
 					return response.next(that);
 				}
+				response.debug();
 				throw new Error("We expected a HTTP POST html page.");
 
 			})
