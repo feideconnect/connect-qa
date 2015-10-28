@@ -58,10 +58,9 @@ var ConnectQA = Class.extend({
 		this.sconfig = sconfig;
 
 		this.oce = new OCEngine(sconfig);
-		// this.codeflow = new CodeFlow(sconfig);
+		this.codeflow = new CodeFlow(sconfig);
 
 
-		
 	},
 	"run": function() {
 		var that = this;
@@ -71,7 +70,7 @@ var ConnectQA = Class.extend({
 				return that.oce.run();
 			})
 			.then(function() {
-				// return that.codeflow.run();
+				return that.codeflow.run();
 			})
 			.then(function(token) {
 				var api = new ConnectAPI(that.sconfig, token);
