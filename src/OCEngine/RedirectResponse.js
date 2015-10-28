@@ -18,12 +18,19 @@ var RedirectResponse = Response.extend({
 	"next": function(engine) {
 		return engine.get(this.url);
 
+	},
+	"debug": function() {
+		this.log.debug("Juhuuuu", this.url);
+		this._super();
+
 	}
 });
 
 RedirectResponse.detect = function(response, body, c) {
 	if (response.statusCode >= 301 && response.statusCode <= 303) {
-		return new RedirectResponse(response, body, c);
+		var rr = new RedirectResponse(response, body, c);;
+		console.log("RedirectResponse has url", rr.url);
+		return rr;
 	}
 	return null;
 }

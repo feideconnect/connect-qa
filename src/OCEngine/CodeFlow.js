@@ -122,6 +122,7 @@ var CodeFlow = OCEngine.extend({
 
 				if (response instanceof PasswordDialogResponse) {
 					response.setCredentials(that.config.username, that.config.password);
+					response.setIdPhostname(that.config.idphostname);
 					return response.next(that);
 				}
 				throw new Error("We expected a PasswordDialogResponse");
