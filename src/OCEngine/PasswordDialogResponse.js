@@ -12,11 +12,12 @@ var PasswordDialogResponse = Response.extend({
 		this.idphostname = 'idp.feide.no';
 	},
 	"setCredentials": function(u, p) {
-		this.u = u; this.p = p;
+		this.u = u;
+		this.p = p;
 	},
 	"setIdPhostname": function(idphostname) {
 		if (typeof idphostname !== 'undefined') {
-			this.idphostname = idphostname;	
+			this.idphostname = idphostname;
 		}
 	},
 	"next": function(engine) {
