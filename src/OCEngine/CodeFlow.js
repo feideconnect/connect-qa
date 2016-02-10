@@ -102,6 +102,12 @@ var CodeFlow = OCEngine.extend({
 		var that = this;
 		return this.get(rurl)
 			.then(function(response) {
+				if (response instanceof RedirectResponse) {
+					return response.next(that);
+				}
+				return response;
+			})
+			.then(function(response) {
 
 				if (response instanceof SelectProviderResponse) {
 					return response.next(that);
@@ -163,7 +169,8 @@ var CodeFlow = OCEngine.extend({
 				if (response instanceof ConnectConsentResponse) {
 					return response.next(that);
 				}
-				throw new Error("We expected a Consent page.");
+				return response;
+				// throw new Error("We expected a Consent page.");
 
 			})
 			.then(function(response) {
