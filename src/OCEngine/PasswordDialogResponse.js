@@ -9,17 +9,24 @@ var PasswordDialogResponse = Response.extend({
 
 		this.u = null;
 		this.p = null;
+		this.idphostname = 'idp.feide.no';
 	},
 	"setCredentials": function(u, p) {
-		this.u = u; this.p = p;
+		this.u = u;
+		this.p = p;
+	},
+	"setIdPhostname": function(idphostname) {
+		if (typeof idphostname !== 'undefined') {
+			this.idphostname = idphostname;
+		}
 	},
 	"next": function(engine) {
 		var that = this;
 		var obj = {};
 		var orgoptions = {};
 
-		var action = 'https://idp-test.feide.no/simplesaml/module.php/feide/login.php';
-		// var action = 'http://f60.httpjs.net/';
+		var action = 'https://' + this.idphostname + '/simplesaml/module.php/feide/login.php';
+
 		var actionqs = this.$("form").attr("action");
 
 		action += actionqs;

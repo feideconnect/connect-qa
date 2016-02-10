@@ -37,7 +37,7 @@ SelectProviderResponse.detect = function(response, body, c) {
 	// console.log("About to detect");
 	// console.log(response.statusCode);
 	// console.log(c("title").text());
-	
+
 	var responseMeta = {
 		"head": response.statusCode + " " + response.statusMessage,
 		"headers": response.headers

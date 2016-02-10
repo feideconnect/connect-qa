@@ -7,16 +7,23 @@ var SelectOrgResponse = Response.extend({
 		this._super(response, body, c);
 		this.type = "SelectOrgResponse";
 		this.org = "feide.no";
+		this.idphostname = 'idp.feide.no';
 	},
 	"selectOrg": function(org) {
 		this.org = org;
+	},
+	"setIdPhostname": function(idphostname) {
+		if (typeof idphostname !== 'undefined') {
+			this.idphostname = idphostname;	
+		}
 	},
 	"next": function(engine) {
 		var that = this;
 		var obj = {};
 		var orgoptions = {};
 
-		var action = 'https://idp-test.feide.no/simplesaml/module.php/feide/login.php';
+
+		var action = 'https://' + this.idphostname + '/simplesaml/module.php/feide/login.php';
 
 		this.$("input").each(function(i, item) {
 			// console.log("item", this.$(item));
@@ -33,7 +40,8 @@ var SelectOrgResponse = Response.extend({
 			var value = that.$(this).text();
 			orgoptions[key] = value;
 		});
-		// console.log("Action:", action);
+		this.log.debug("Action", action);
+		// exit;
 		// console.log("Org options:", orgoptions);
 		// console.log("Parameters:", obj);
 
