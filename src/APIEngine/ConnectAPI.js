@@ -7,8 +7,6 @@ var tough = require('tough-cookie');
 var cheerio = require('cheerio');
 var extend = require('extend');
 
-var stathat = require('stathat');
-
 var Timer = require('../Timer').Timer;
 var Class = require('../Class').Class;
 
@@ -85,11 +83,6 @@ var ConnectAPI = Class.extend({
 				if (to) {
 					var dur = timer.dur();
 					console.log("Duration [" + to.title + "] " + dur + " ms");
-					if (that.config.stathat) {
-						stathat.trackEZValue(that.config.stathat, that.config.set + " api " + to.title, dur, function() {
-							console.log("Successfully stored timer to stathat [" + that.config.stathat + "] " + to.title + " " + dur);
-						});
-					}
 				}
 
 				resolve(data);

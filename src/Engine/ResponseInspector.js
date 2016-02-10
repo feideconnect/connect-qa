@@ -38,6 +38,9 @@ var ResponseInspector = Class.extend({
 				return pr;
 			}
 		}
+		// console.log("Data is ", body);
+		// console.log("Data is ", response);
+		// console.log("Data is ", c);
 		throw new Error("Could not reckognize Response type");
 	}
 })

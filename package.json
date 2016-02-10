@@ -23,7 +23,6 @@
     "jsonwebtoken": "^5.0.2",
     "optimist": "^0.6.1",
     "request": "^2.58.0",
-    "stathat": "0.0.8",
     "tough-cookie": "^2.0.0",
     "uuid": "^2.0.1"
   }
