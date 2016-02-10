@@ -87,7 +87,12 @@ var Engine = Class.extend({
 	"get": function (opts, to) {
 		var that = this;
 		// extend(opts, {"jar": this.jar});
-
+		
+		
+		if (typeof opts === 'object') {
+			opts.followRedirect = false;	
+		}
+		
 		// console.log("About to get ", opts);
 
 		// console.log("-------");

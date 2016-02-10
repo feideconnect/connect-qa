@@ -16,8 +16,9 @@ var RedirectResponse = Response.extend({
 		return this.url;
 	},
 	"next": function(engine) {
-		return engine.get(this.url);
-
+		return engine.get({
+			"url": this.url
+		});
 	}
 });
 
