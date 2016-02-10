@@ -107,10 +107,17 @@ var OCEngine = Engine.extend({
 		var that = this;
 		return this.get(rurl)
 			.then(function(response) {
+				if (response instanceof RedirectResponse) {
+					return response.next(that);
+				}
+				return response;
+			})
+			.then(function(response) {
 
 				if (response instanceof SelectProviderResponse) {
 					return response.next(that);
 				}
+				response.debug();
 				throw new Error("At the first step we expected a Select Provider page, but we did not see that");
 
 			}).then(function(response) {
@@ -132,12 +139,10 @@ var OCEngine = Engine.extend({
 
 			})
 			.then(function(response) {
-
 				if (response instanceof RedirectResponse) {
 					return response.next(that);
 				}
 				return response;
-
 			})
 			.then(function(response) {
 
@@ -158,6 +163,16 @@ var OCEngine = Engine.extend({
 			.then(function(response) {
 
 				if (response instanceof RedirectResponse) {
+
+						var redirect_uri = response.getURL();
+						console.log("Redirect URL IS ", redirect_uri);
+						// var up = url.parse(redirect_uri);
+						// var hash = up.hash;
+
+						// var q = querystring.parse(hash.substring(1));
+						// var token = new AccessToken(q);
+						// return token;
+						
 					return response.next(that);
 				}
 				return response;
@@ -168,7 +183,8 @@ var OCEngine = Engine.extend({
 				if (response instanceof ConnectConsentResponse) {
 					return response.next(that);
 				}
-				throw new Error("We expected a Consent page.");
+				return response;
+				// throw new Error("We expected a Consent page.");
 
 			})
 			.then(function(response) {
