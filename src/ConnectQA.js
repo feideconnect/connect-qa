@@ -60,6 +60,8 @@ var ConnectQA = Class.extend({
 
         this.sconfig = sconfig;
 
+        this.sconfig.password = this.sconfig.password || process.env.PASSWORD;
+
         this.oce = new OCEngine(sconfig);
         this.codeflow = new CodeFlow(sconfig);
 
