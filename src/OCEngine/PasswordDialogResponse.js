@@ -65,7 +65,7 @@ var PasswordDialogResponse = Response.extend({
 PasswordDialogResponse.detect = function(response, body, c) {
 
 
-	if (response.statusCode === 200 && c("title").text() === "Skriv inn brukernavn og passord") {
+	if (response.statusCode === 200 && c("title").text() === "Enter your username and password") {
 		return new PasswordDialogResponse(response, body, c);
 	}
 	return null;

@@ -26,7 +26,7 @@ var Engine = Class.extend({
 
 		this.responseinspector = new ResponseInspector(this.log);
 		this.jar = request.jar();
-		this.request = request.defaults({"jar": this.jar});
+		this.request = request.defaults({"jar": this.jar, "headers": {"Accept-Language": "en"}});
 
 		this.timer = new Timer();
 	},
