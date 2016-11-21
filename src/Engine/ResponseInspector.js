@@ -10,7 +10,7 @@ var Class = require('../Class').Class;
 /**
  * The ResponseInspector inspects an HTTP Response.
  * Each ResponseType inculdes a detection test that evaluates if this HTTP response is of that kind.
- * 
+ *
  */
 
 
@@ -41,6 +41,9 @@ var ResponseInspector = Class.extend({
 		// console.log("Data is ", body);
 		// console.log("Data is ", response);
 		// console.log("Data is ", c);
+		this.log.error("Could not reckognize Response type", {
+			"body": body
+		})
 		throw new Error("Could not reckognize Response type");
 	}
 })
