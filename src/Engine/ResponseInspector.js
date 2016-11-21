@@ -30,7 +30,8 @@ var ResponseInspector = Class.extend({
 	"detect": function(response, body, c) {
 		var pr;
 
-		// console.log(Object.keys(response.headers))
+		// console.log(Object.keys(response.req))
+
 
 		for(var i = 0; i < this.responsetypes.length; i++) {
 			// console.log("ABOUT to detect", this.responsetypes[i]);
@@ -45,9 +46,11 @@ var ResponseInspector = Class.extend({
 		// console.log("Data is ", response);
 		// console.log("Data is ", c);
 		this.log.error("Could not reckognize Response type", {
-			"body": body,
-			"headers": response.headers
-		})
+				"body": body,
+				"responseHeaders": response.headers,
+				"requestHeaders": response.req._headers,
+			 "path": response.req.path
+			})
 		throw new Error("Could not reckognize Response type");
 	}
 })
