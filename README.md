@@ -9,12 +9,12 @@ Functional test suite against Connect Platform.
 
 To run tests:
 
-	clear; node index.js | bunyan
+	clear; PASSWORD=xxxx node index.js | bunyan -L
 
 
 CLI options
 
-	Usage: node ./index.js --set [string] 
+	Usage: node ./index.js --set [string]
 
 	Options:
 	  --set   Select configuration set, as specified in config.json
@@ -23,7 +23,3 @@ CLI options
 In example, we could selet whether we run against dev og prod environment.
 
 	$ node ./index.js --set prod
-
-
-
-
