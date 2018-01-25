@@ -14,7 +14,7 @@ var SelectOrgResponse = Response.extend({
 	},
 	"setIdPhostname": function(idphostname) {
 		if (typeof idphostname !== 'undefined') {
-			this.idphostname = idphostname;	
+			this.idphostname = idphostname;
 		}
 	},
 	"next": function(engine) {
@@ -33,9 +33,9 @@ var SelectOrgResponse = Response.extend({
 				obj[that.$(item).attr("name")] = that.$(this).attr("value");
 			}
 		});
-		
 
-		this.$("select#org option").each(function(i, item) {
+
+		this.$("select#org_selector option").each(function(i, item) {
 			var key   = that.$(this).attr("value");
 			var value = that.$(this).text();
 			orgoptions[key] = value;
@@ -62,7 +62,7 @@ SelectOrgResponse.detect = function(response, body, c) {
 
 	if (response.statusCode === 200) {
 
-		if (c("div#orgframe fieldset select#org").attr("name") === "org") {
+		if (c("div.main form select#org_selector").attr("name") === "org") {
 			return new SelectOrgResponse(response, body, c);
 		}
 

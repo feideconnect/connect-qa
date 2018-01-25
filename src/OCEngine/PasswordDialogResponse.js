@@ -27,7 +27,7 @@ var PasswordDialogResponse = Response.extend({
 
 		var action = 'https://' + this.idphostname + '/simplesaml/module.php/feide/login.php';
 
-		var actionqs = this.$("form").attr("action");
+		var actionqs = this.$("form.pure-form").attr("action");
 
 		action += actionqs;
 
@@ -65,7 +65,7 @@ var PasswordDialogResponse = Response.extend({
 PasswordDialogResponse.detect = function(response, body, c) {
 
 
-	if (response.statusCode === 200 && c("title").text() === "Enter your username and password") {
+	if (response.statusCode === 200 && c("title").text() === "Log in with Feide") {
 		return new PasswordDialogResponse(response, body, c);
 	}
 	return null;
