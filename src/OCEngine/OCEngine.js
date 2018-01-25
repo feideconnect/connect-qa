@@ -110,70 +110,72 @@ var OCEngine = Engine.extend({
 			})
 			.then(function(response) {
 
+
+
 				if (response instanceof SelectProviderResponse) {
 					return response.next(that);
 				}
 				response.debug();
 				throw new Error("At the first step we expected a Select Provider page, but we did not see that");
 
-            }).then(function(response) {
+      }).then(function(response) {
 
-                if (response instanceof SelectOrgResponse) {
-                    response.selectOrg(that.config.org);
-                    response.setIdPhostname(that.config.idphostname);
-                    return response.next(that);
-                }
-                throw new Error("We expected a SelectOrg page.");
+          if (response instanceof SelectOrgResponse) {
+              response.selectOrg(that.config.org);
+              response.setIdPhostname(that.config.idphostname);
+              return response.next(that);
+          }
+          throw new Error("We expected a SelectOrg page.");
 
-            })
-            .then(function(response) {
+      })
+      .then(function(response) {
 
-                if (response instanceof PasswordDialogResponse) {
-                    response.setCredentials(that.config.username, that.config.password);
-                    response.setIdPhostname(that.config.idphostname);
-                    return response.next(that);
-                }
+          if (response instanceof PasswordDialogResponse) {
+              response.setCredentials(that.config.username, that.config.password);
+              response.setIdPhostname(that.config.idphostname);
+              return response.next(that);
+          }
 
-                response.debug();
-                throw new Error("We expected a PasswordDialogResponse");
+          response.debug();
+          throw new Error("We expected a PasswordDialogResponse");
 
-            })
-            .then(function(response) {
+      })
+      .then(function(response) {
 
-                if (response instanceof RedirectResponse) {
-                    return response.next(that);
-                }
-                return response;
+          if (response instanceof RedirectResponse) {
+              return response.next(that);
+          }
+          return response;
 
-            })
-            .then(function(response) {
-
-
-                if (response instanceof PreProdWarningResponse) {
-                    return response.next(that);
-                }
-                return response;
-
-            })
-            .then(function(response) {
-
-                if (response instanceof POSTResponse) {
-                    return response.next(that);
-                }
-                response.debug();
-                throw new Error("We expected a HTTP POST html page.");
-
-            })
-            .then(function(response) {
-
-                if (response instanceof RedirectResponse) {
-                    return response.next(that);
-                }
-                return response;
+      })
+      .then(function(response) {
 
 
-            })
-            .then(function(response) {
+          if (response instanceof PreProdWarningResponse) {
+              return response.next(that);
+          }
+          return response;
+
+      })
+      .then(function(response) {
+
+          if (response instanceof POSTResponse) {
+              return response.next(that);
+          }
+          response.debug();
+          throw new Error("We expected a HTTP POST html page.");
+
+      })
+      .then(function(response) {
+
+          if (response instanceof RedirectResponse) {
+              return response.next(that);
+          }
+          return response;
+
+
+      })
+      .then(function(response) {
 				if (response instanceof ConnectConsentResponse) {
 					return response.next(that);
 				}
